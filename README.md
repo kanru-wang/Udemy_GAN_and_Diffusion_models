@@ -28,15 +28,23 @@ WGAN-GP demonstrates better image quality and convergence comparing with WGAN. H
 
 https://machinelearningmastery.com/introduction-to-progressive-growing-generative-adversarial-networks/
 
+https://towardsdatascience.com/progan-how-nvidia-generated-images-of-unprecedented-quality-51c98ec2cbd2
+
 <img src="https://machinelearningmastery.com/wp-content/uploads/2019/06/Example-of-Progressively-Adding-Layers-to-Generator-and-Discriminator-Models.png" width="500"/>
 
 <img src="https://machinelearningmastery.com/wp-content/uploads/2019/06/Example-of-Phasing-in-the-Addition-of-New-Layers-to-the-Generator-and-Discriminator-Models.png" width="600"/>
 
+<img src="https://miro.medium.com/v2/1*lStHChxfyLB3S7wUW3Quiw.png" width="700"/>
+
+- Apart from the high resolution, ProGAN can be trained about 2–6 times faster than a corresponding traditional GAN.
 - The phasing in of a new block of layers involves using a skip connection to connect the new block to the input of the discriminator or output of the generator, and adding it to the existing input or output layer with a weighting. The weighting controls the influence of the new block and is achieved using a parameter alpha (α) that starts at zero (or a very small number), and linearly increases to 1.0 over training iterations.
 - All layers remain trainable during the training process, including existing layers when new layers are added.
 - The upsampling method is nearest neighbor interpolation, which is different from many GAN generators that use a transpose convolutional layer. The downsampling method is average pooling, which is different from many GAN discriminators that use a 2×2 stride in the convolutional layers to downsample.
 - Batch normalization is not used; instead, minibatch standard deviation and pixel-wise normalization are used.
-    - Minibatch standard deviation: The standard deviation of activations across images in the mini-batch is added as a new channel prior to the last block of convolutional layers in the discriminator.
-    - Pixel-wise normalization: Performed in the generator after each convolutional layer which normalizes each pixel value in the activation map across the channels to a unit length.
+    - Minibatch standard deviation: The standard deviation of activations across images in the mini-batch is added as a new channel prior to the last block of convolutional layers in the discriminator. This encourages the generator to produce more variety, such that statistics computed across a generated batch more closely resemble those from a training data batch.
+    - Pixel-wise normalization: Normalizes the feature vector in each pixel (of all channels) to unit length, and is applied after the convolutional layers in the generator. This is to prevent signal magnitudes going out of control.
+- Equalized Learning Rate: Before every forward pass during training, scale the weights of a layer according to how many weights that layer has.
 - Image generation uses a weighted average of prior models rather a given model snapshot, much like a horizontal ensemble.)
+- The paper uses WGAN-GP as the loss function, but can use other loss functions.
+
 
