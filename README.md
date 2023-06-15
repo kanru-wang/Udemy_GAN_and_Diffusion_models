@@ -36,6 +36,8 @@ https://towardsdatascience.com/progan-how-nvidia-generated-images-of-unprecedent
 
 <img src="https://miro.medium.com/v2/1*lStHChxfyLB3S7wUW3Quiw.png" width="700"/>
 
+（Also check out the Discriminator layer diagram from reference link)
+
 - Apart from the high resolution, ProGAN can be trained about 2–6 times faster than a corresponding traditional GAN.
 - The phasing in of a new block of layers involves using a skip connection to connect the new block to the input of the discriminator or output of the generator, and adding it to the existing input or output layer with a weighting. The weighting controls the influence of the new block and is achieved using a parameter alpha (α) that starts at zero (or a very small number), and linearly increases to 1.0 over training iterations.
 - All layers remain trainable during the training process, including existing layers when new layers are added.
