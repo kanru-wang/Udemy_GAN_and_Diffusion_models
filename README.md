@@ -34,7 +34,9 @@ https://towardsdatascience.com/progan-how-nvidia-generated-images-of-unprecedent
 
 <img src="https://machinelearningmastery.com/wp-content/uploads/2019/06/Example-of-Phasing-in-the-Addition-of-New-Layers-to-the-Generator-and-Discriminator-Models.png" width="600"/>
 
-<img src="https://miro.medium.com/v2/1*lStHChxfyLB3S7wUW3Quiw.png" width="700"/>
+The image above shows the transition from 16 x 16 iamges (a) to 32 x 32 images (c) for doubling the resolution. During the transition (b), new layers are faded in smoothly. 
+
+<img src="https://miro.medium.com/1*lStHChxfyLB3S7wUW3Quiw.png" width="700"/>
 
 （Also check out the Discriminator layer diagram from reference link)
 
