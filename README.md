@@ -1,3 +1,5 @@
+[Deep Learning Image Generation with GANs and Diffusion Model](https://www.udemy.com/course/deep-learning-image-generation-with-gans-and-diffusion-model) ([Course Material](https://github.com/Neuralearn/deep-learning-with-tensorflow-2/tree/main/deep%20learning%20for%20image%20generation))
+
 # WGAN
 
 https://jonathan-hui.medium.com/gan-wasserstein-gan-wgan-gp-6a1a2aa1b490
@@ -51,4 +53,10 @@ The image above shows the transition from 16 x 16 iamges (a) to 32 x 32 images (
 - Image generation uses a weighted average of prior models rather a given model snapshot, much like a horizontal ensemble.)
 - The paper uses WGAN-GP as the loss function, but can use other loss functions.
 
+# Super Resolution GAN (SRGAN)
 
+When producing higher resolution images, SRGAN is more appealing to a human with more details compared with the similar design without GAN (SRResNet). During the training, a high-resolution image (HR) is downsampled to a low-resolution image (LR). A GAN generator upsamples LR images to super-resolution images (SR). A discriminator is used to distinguish the HR images and backpropagate the GAN loss to train the discriminator and the generator.
+
+The loss is the weighted sum of a Content Loss and an Adversarial Loss. For the Content Loss, a VGG-19 network is used as a feature extractor, and each generated SR (fake) image’s VGG output and its original HR (real) image’s VGG output VGG are compared pixel-wise (and MSE is calculated). The only way that the fake image’s VGG output and the real image’s VGG output will be similar is when the input images themselves are similar.
+
+See formula: https://medium.com/@ramyahrgowda/srgan-paper-explained-3d2d575d09ff
