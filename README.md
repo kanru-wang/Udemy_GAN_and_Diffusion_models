@@ -60,3 +60,42 @@ When producing higher resolution images, SRGAN is more appealing to a human with
 The loss is the weighted sum of a Content Loss and an Adversarial Loss. For the Content Loss, a VGG-19 network is used as a feature extractor, and each generated SR (fake) image’s VGG output and its original HR (real) image’s VGG output VGG are compared pixel-wise (and MSE is calculated). The only way that the fake image’s VGG output and the real image’s VGG output will be similar is when the input images themselves are similar.
 
 See formula: https://medium.com/@ramyahrgowda/srgan-paper-explained-3d2d575d09ff
+
+# CycleGan
+
+<img src="image/cyclegan_1.png" width="700"/>
+
+<img src="image/cyclegan_2.png" width="700"/>
+
+https://developers.arcgis.com/python/guide/how-cyclegan-works/
+
+The model architecture is comprised of two generators: one generator (Generator-A) for generating images for the first domain (Domain-A) and the second generator (Generator-B) for generating images for the second domain (Domain-B).
+
+    Domain-B -> Generator-A -> Domain-A
+    Domain-A -> Generator-B -> Domain-B
+
+Each generator has a corresponding discriminator model (Discriminator-A and Discriminator-B). The discriminator model takes real images from Domain and generated images from Generator to predict whether they are real or fake.
+
+    Domain-A -> Discriminator-A -> [Real/Fake]
+    Domain-B -> Generator-A -> Discriminator-A -> [Real/Fake]
+    Domain-B -> Discriminator-B -> [Real/Fake]
+    Domain-A -> Generator-B -> Discriminator-B -> [Real/Fake]
+ 
+
+The loss used to train the Generators consists of three parts:
+
+1. Adversarial Loss: Apply Adversarial Loss to both the Generators, where the Generator tries to generate the images of its domain, while its corresponding discriminator distinguishes between the translated samples and real samples. Generator aims to minimize this loss against its corresponding Discriminator that tries to maximize it.
+
+2. Cycle Consistency Loss: It captures the intuition that if we translate the image from one domain to the other and back again, it should look the same as the original one. Hence, it calculates the L1 loss between the original image and the final generated image. It is calculated in two directions:
+
+        Forward Cycle Consistency: Domain-B -> Generator-A -> Domain-A -> Generator-B -> Domain-B
+        Backward Cycle Consistency: Domain-A -> Generator-B -> Domain-B -> Generator-A -> Domain-A
+
+3. Identity Loss (me: this is optional): It encourages the generator to preserve the color composition between input and output. This is done by providing the generator an image of its target domain as an input and calculating the L1 loss between input and the generated images.
+
+        Domain-A -> Generator-A -> Domain-A
+        Domain-B -> Generator-B -> Domain-B
+
+Popular applications: (1) Image-to-image translation: Translate images from one domain to another, for example, from sketches to photographs. Useful for generating training data for machine learning models. (2) Domain adaptation: Adapt a model trained on synthetic data to real data. (3) Data augmentation. (4) Anomaly detection: Often used in medical applications. (5) Denoising
+
+Also see: https://hardikbansal.github.io/CycleGANBlog/
