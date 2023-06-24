@@ -1,5 +1,14 @@
 [Deep Learning Image Generation with GANs and Diffusion Model](https://www.udemy.com/course/deep-learning-image-generation-with-gans-and-diffusion-model) ([Course Material](https://github.com/Neuralearn/deep-learning-with-tensorflow-2/tree/main/deep%20learning%20for%20image%20generation))
 
+# Overall
+
+https://learnopencv.com/image-generation-using-diffusion-models/
+
+|      | VAE                                           | GAN                                                                  | Diffusion                                                   |
+|------|-----------------------------------------------|----------------------------------------------------------------------|-------------------------------------------------------------|
+| Pros | Sampling is fast<br>Diverse sample generation | Sampling is fast<br>High sample generation quality                   | High sample generation quality<br>Diverse sample generation |
+| Cons | Low sample generation quality                 | Unstable training<br>Low sample generation diversity (mode collapse) | Sampling is slow (but is fast with DDIM)
+
 # WGAN
 
 https://jonathan-hui.medium.com/gan-wasserstein-gan-wgan-gp-6a1a2aa1b490
@@ -99,3 +108,17 @@ The loss used to train the Generators consists of three parts:
 Popular applications: (1) Image-to-image translation: Translate images from one domain to another, for example, from sketches to photographs. Useful for generating training data for machine learning models. (2) Domain adaptation: Adapt a model trained on synthetic data to real data. (3) Data augmentation. (4) Anomaly detection: Often used in medical applications. (5) Denoising
 
 Also see: https://hardikbansal.github.io/CycleGANBlog/
+
+# Diffusion Models
+
+<img src="image/diffusion_6.png" width="500"/>
+
+<br>
+
+<img src="image/diffusion_2.png" width="500"/>
+
+<br>
+
+<img src="image/diffusion_7.png" width="500"/>
+
+
