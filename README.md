@@ -1,13 +1,13 @@
-[Deep Learning Image Generation with GANs and Diffusion Model](https://www.udemy.com/course/deep-learning-image-generation-with-gans-and-diffusion-model) ([Course Material](https://github.com/Neuralearn/deep-learning-with-tensorflow-2/tree/main/deep%20learning%20for%20image%20generation))
+## [Deep Learning Image Generation with GANs and Diffusion Model](https://www.udemy.com/course/deep-learning-image-generation-with-gans-and-diffusion-model)
 
-# Overall
-
-https://learnopencv.com/image-generation-using-diffusion-models/
+[Overview](https://learnopencv.com/image-generation-using-diffusion-models/)
 
 |      | VAE                                           | GAN                                                                  | Diffusion                                                   |
 |------|-----------------------------------------------|----------------------------------------------------------------------|-------------------------------------------------------------|
 | Pros | Sampling is fast<br>Diverse sample generation | Sampling is fast<br>High sample generation quality                   | High sample generation quality<br>Diverse sample generation |
 | Cons | Low sample generation quality                 | Unstable training<br>Low sample generation diversity (mode collapse) | Sampling is slow (but is fast with DDIM)
+
+<br>
 
 # WGAN
 
@@ -25,6 +25,8 @@ Two significant contributions for WGAN are
 - it has no sign of mode collapse in experiments, and
 - the generator can still learn when the critic (discriminator) performs well.
 
+<br>
+
 # WGAN-GP
 
 https://jonathan-hui.medium.com/gan-wasserstein-gan-wgan-gp-6a1a2aa1b490
@@ -34,6 +36,8 @@ Wasserstein GAN requires enforcing the Lipschitz constraint, but GAN’s weight 
 Batch normalization is avoided for the WGAN-GP’s critic (discriminator). Batch normalization creates correlations between samples in the same batch. It impacts the effectiveness of the gradient penalty.
 
 WGAN-GP demonstrates better image quality and convergence comparing with WGAN. However, DCGAN demonstrates slightly better image quality and it converges faster. Compared to DCGAN, WGAN-GP’s advantage is that its training convergency is more stable, allowing us to use a more complex model like a deep ResNet for the generator and the discriminator.
+
+<br>
 
 # Progressive Growing GAN (ProGAN)
 
@@ -62,6 +66,8 @@ The image above shows the transition from 16 x 16 iamges (a) to 32 x 32 images (
 - Image generation uses a weighted average of prior models rather a given model snapshot, much like a horizontal ensemble.)
 - The paper uses WGAN-GP as the loss function, but can use other loss functions.
 
+<br>
+
 # Super Resolution GAN (SRGAN)
 
 When producing higher resolution images, SRGAN is more appealing to a human with more details compared with the similar design without GAN (SRResNet). During the training, a high-resolution image (HR) is downsampled to a low-resolution image (LR). A GAN generator upsamples LR images to super-resolution images (SR). A discriminator is used to distinguish the HR images and backpropagate the GAN loss to train the discriminator and the generator.
@@ -69,6 +75,8 @@ When producing higher resolution images, SRGAN is more appealing to a human with
 The loss is the weighted sum of a Content Loss and an Adversarial Loss. For the Content Loss, a VGG-19 network is used as a feature extractor, and each generated SR (fake) image’s VGG output and its original HR (real) image’s VGG output VGG are compared pixel-wise (and MSE is calculated). The only way that the fake image’s VGG output and the real image’s VGG output will be similar is when the input images themselves are similar.
 
 See formula: https://medium.com/@ramyahrgowda/srgan-paper-explained-3d2d575d09ff
+
+<br>
 
 # CycleGan
 
@@ -109,16 +117,16 @@ Popular applications: (1) Image-to-image translation: Translate images from one 
 
 Also see: https://hardikbansal.github.io/CycleGANBlog/
 
+<br>
+
 # Diffusion Models
 
-<img src="image/diffusion_6.png" width="500"/>
+See math details: https://medium.com/@steinsfu/diffusion-model-clearly-explained-cd331bd41166
 
-<br>
+<img src="image/diffusion_training.png" width="700"/>
 
-<img src="image/diffusion_2.png" width="500"/>
+<img src="image/diffusion_sampling.png" width="700"/>
 
-<br>
-
-<img src="image/diffusion_7.png" width="500"/>
+See code examples: https://www.deeplearning.ai/short-courses/how-diffusion-models-work/
 
 
