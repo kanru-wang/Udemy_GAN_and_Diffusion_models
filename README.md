@@ -15,7 +15,7 @@ https://jonathan-hui.medium.com/gan-wasserstein-gan-wgan-gp-6a1a2aa1b490
 
 In practice, GAN can optimize the discriminator easier than the generator. Assuming the discriminator is already optimal, when minimizing the GAN objective function, if two distributions are very distant (i.e. if the generated image has distribution far away from the ground truth), the divergence would be large, but the gradient of the divergency would eventually diminish. We would have a close-to-zero gradient, i.e. the generator learns nothing from the gradient descent.
 
-<img src="https://miro.medium.com/1*-VajV2qCbPWDCdNGbQfCng.png" width="400"/>
+<img src="image/WGAN.png" width="400"/>
 
 For GAN (the red line), it fills with areas with diminishing or exploding gradients.
 
@@ -43,13 +43,13 @@ https://machinelearningmastery.com/introduction-to-progressive-growing-generativ
 
 https://towardsdatascience.com/progan-how-nvidia-generated-images-of-unprecedented-quality-51c98ec2cbd2
 
-<img src="https://machinelearningmastery.com/wp-content/uploads/2019/06/Example-of-Progressively-Adding-Layers-to-Generator-and-Discriminator-Models.png" width="500"/>
+<img src="image/ProGAN_1.png" width="500"/>
 
-<img src="https://machinelearningmastery.com/wp-content/uploads/2019/06/Example-of-Phasing-in-the-Addition-of-New-Layers-to-the-Generator-and-Discriminator-Models.png" width="600"/>
+<img src="image/ProGAN_2.png" width="600"/>
 
 The image above shows the transition from 16 x 16 iamges (a) to 32 x 32 images (c) for doubling the resolution. During the transition (b), new layers are faded in smoothly. 
 
-<img src="https://miro.medium.com/1*lStHChxfyLB3S7wUW3Quiw.png" width="700"/>
+<img src="image/ProGAN_3.png" width="700"/>
 
 （Also check out the Discriminator layer diagram from reference link)
 
