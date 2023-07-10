@@ -35,8 +35,6 @@ Wasserstein GAN requires enforcing the Lipschitz constraint, but GAN’s weight 
 
 Batch normalization is avoided for the WGAN-GP’s critic (discriminator). Batch normalization creates correlations between samples in the same batch. It impacts the effectiveness of the gradient penalty.
 
-WGAN-GP demonstrates better image quality and convergence comparing with WGAN. However, DCGAN demonstrates slightly better image quality and it converges faster. Compared to DCGAN, WGAN-GP’s advantage is that its training convergency is more stable, allowing us to use a more complex model like a deep ResNet for the generator and the discriminator.
-
 <br>
 
 # Progressive Growing GAN (ProGAN)
@@ -127,6 +125,44 @@ See math details: https://medium.com/@steinsfu/diffusion-model-clearly-explained
 
 <img src="image/diffusion_sampling.png" width="700"/>
 
-See code examples: https://www.deeplearning.ai/short-courses/how-diffusion-models-work/
+See code examples:
 
+- https://www.deeplearning.ai/short-courses/how-diffusion-models-work/
+- https://github.com/huggingface/diffusion-models-class
 
+### Why don't we just denoise in a single large step?
+
+For low noise, denoising is easy. For high noise, denoising is hard; the results tend to be blurry.
+
+### Class-Conditioned UNet
+
+If the image shape is (bs, 3, 28, 28), and class embedding size is 4 (i.e. 4 numbers are enough to encode all classes), then the class embedding shape is (bs, 4, 28, 28) (i.e. same 4 numbers for each pixal), and the concatenated shape is (bs, 3 + 4, 28, 28)
+
+### Fine-Tuning
+
+Fine-tune a trained diffusion model (trained on a dataset from the same or a different domain) on a target dataset, so that it can generate target images.
+
+### Guidance
+
+While a conditional model can takes additional inputs to control the generation process, the Guidance technique can control a trained unconditional model, i.e. the generated image at each step in the generation process is pushed to lower loss according to the guidance function (a user-defined loss function). Specifically, calculate the gradient of this loss with respect to the current noisy x and use this gradient to modify x before updating it with the scheduler.
+
+For example:
+
+    def loss(generated_image, prompt_text)
+        image_features = openai_clip_model.encode_image(generated_image)
+        text_features = openai_clip_model.encode_text(prompt_text)
+        return distance between image_features and text_features
+
+### Classifier-Free Guidance (CGF)
+
+During training, text conditioning is sometimes kept blank, forcing the model to learn to denoise images with no text information (unconditional generation). Then at inference time, make two separate predictions: one with the text prompt as conditioning and one without. Then use the difference between these two predictions to create a final combined prediction that pushes even further in the direction indicated by the text-conditioned prediction.
+
+### Stable Diffusion Text to Image Sampling Process
+
+During training, it is worth mentioning that a pre-trained VAE encoder is used to generate VAE latent tensors as inputs to a U-Net (rather than using full-resolution images) for lower memory usage, fewer layers needed in the U-Net, and faster generation time.
+
+During sampling, a U-Net that takes (1) text embedding (transformed from a prompt), (2) noise (random numbers in the shape of the VAE latent tensor), (3) timestep, and outputs noise in the shape of VAE latent tensor which is then decoded (using a pre-trained VAE decoder) into an image.
+
+### Stable Diffusion Img2Img Sampling Process
+
+An Img2Img pipeline first encodes an existing image into a latent tensor, then adds some noise to the latent tensor, and uses that (instead of pure random numbers) as the noise input of the U-Net. Img2Img is for preserving the image structure.
