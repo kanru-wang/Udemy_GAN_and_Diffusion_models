@@ -31,9 +31,45 @@ Two significant contributions for WGAN are
 
 https://jonathan-hui.medium.com/gan-wasserstein-gan-wgan-gp-6a1a2aa1b490
 
+1-Lipschitz Continuity means that the slope of every point on the W-Loss loss function is between -1 and 1.
+
+Using the gradients on different real-fake mixture images with respect to the critic is an approximation for enforcing the gradient norm to be 1 at every point.
+
 Wasserstein GAN requires enforcing the Lipschitz constraint, but GAN’s weight clipping has issues. Instead of weight clipping, WGAN-GP uses gradient penalty to enforce the Lipschitz constraint. Gradient penalty penalizes the model if the gradient norm moves away from its target norm value 1.
 
 Batch normalization is avoided for the WGAN-GP’s critic (discriminator). Batch normalization creates correlations between samples in the same batch. It impacts the effectiveness of the gradient penalty.
+
+<br>
+
+# Conditional and Controllable Generation 
+
+### Conditional Generation
+
+For the discriminator, the class information is appended as extra channels (n classes for n channels), whereas for the generator, the class is encoded by appending a one-hot vector to the noise vector.
+ 
+### Controllable Generation
+
+Allows controlling the features of generated images (e.g. long hair) instead of controlling classes (as in Conditional Generation). Controllable Generation is done by tweaking the input noise vector.
+
+Intended input noise vectors can be obtained using Classifier Gradients. In each iteration, the input noise vector is passed to a generator. Weights in the generator are frozen. A pre-trained classifier is used to classify if the output image is intended (e.g. long hair). Modify the input noise vector by gradient descent. Iterate until long hair emerges.
+
+<br>
+
+# Evaluation
+
+A discriminator cannot be used for evaluation because it overfits to the generator it has trained with. The generator’s outputs, even look realistic, are classified as fake.
+
+### Fréchet Inception Distance (FID)
+
+From many (e.g. 50000) real image feature embedding vectors (Inception-v3 is used to extract the embedding vectors), calculate a mean and covariance matrix across all of them. Do the same for many fake images. FID looks at the real and the fake mean and covariance matrices, and calculates how far apart they are. The lower distance the better.
+ 
+The shortcoming of FID are: (1) Inception-v3 does not capture all features, (2) FID is typically lower for larger sample sizes; the more sample there are, the better a GAN will seem to be, (3) Mean and covariance don't cover all aspects of the distribution.
+
+### Inception Score (IS)
+
+KL Divergence measures how different the conditional label distribution (fidelity) is from the marginal label distribution (diversity). KL Divergence is high when distributions are far apart, meaning that fake images each have a distinct/unambiguous label and there is also a diverse range of labels among those fakes. The lowest possible Inception Score is 1 and the highest / best possible score is 1000, the number of classes ImageNet has (Inception-v3 is trained on ImageNet). The Inception Score sums over all the images and averages over all the classes.
+
+The shortcoming of Inception Score are: (1) cannot detect mode collapse, e.g. the model can just generate one realistic image for each class, (2) no comparison to real images, (3) poor score to images that are genuinely high entropy, e.g. multiple items exist in the image. 
 
 <br>
 
