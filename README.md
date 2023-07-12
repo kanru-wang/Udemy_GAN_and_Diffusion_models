@@ -1,4 +1,7 @@
-## [Deep Learning Image Generation with GANs and Diffusion Model](https://www.udemy.com/course/deep-learning-image-generation-with-gans-and-diffusion-model)
+## Deep Learning Image Generation with GANs and Diffusion Model
+
+- Udemy https://www.udemy.com/course/deep-learning-image-generation-with-gans-and-diffusion-model
+- Coursera https://www.coursera.org/programs/data-science-7n1pc/specializations/generative-adversarial-networks-gans
 
 [Overview](https://learnopencv.com/image-generation-using-diffusion-models/)
 
@@ -65,6 +68,9 @@ From many (e.g. 50000) real image feature embedding vectors (Inception-v3 is use
  
 The shortcoming of FID are: (1) Inception-v3 does not capture all features, (2) FID is typically lower for larger sample sizes; the more sample there are, the better a GAN will seem to be, (3) Mean and covariance don't cover all aspects of the distribution.
 
+Regarding FID Truncation: What fake images should we sample when evaluating with FID? Each noise vector is selected from a normal distribution centred around a µ of zero and has a standard deviation of one. When sampling a noise vector, values closer to zero occur more often. Close to zero values result in high fidelity images. Truncate the tails of the sample space, for a little less diversity and a little more fidelity.
+
+ 
 ### Inception Score (IS)
 
 KL Divergence measures how different the conditional label distribution (fidelity) is from the marginal label distribution (diversity). KL Divergence is high when distributions are far apart, meaning that fake images each have a distinct/unambiguous label and there is also a diverse range of labels among those fakes. The lowest possible Inception Score is 1 and the highest / best possible score is 1000, the number of classes ImageNet has (Inception-v3 is trained on ImageNet). The Inception Score sums over all the images and averages over all the classes.
@@ -99,6 +105,12 @@ The image above shows the transition from 16 x 16 iamges (a) to 32 x 32 images (
 - Equalized Learning Rate: Before every forward pass during training, scale the weights of a layer according to how many weights that layer has.
 - Image generation uses a weighted average of prior models rather a given model snapshot, much like a horizontal ensemble.)
 - The paper uses WGAN-GP as the loss function, but can use other loss functions.
+
+<br>
+
+# StyleGAN
+
+A 512 sized noise vector goes through a mapping network and turns into a same 512 sized intermediate noise vector, making the noise vector a less entangled feature representation.
 
 <br>
 
@@ -161,7 +173,7 @@ See math details: https://medium.com/@steinsfu/diffusion-model-clearly-explained
 
 <img src="image/diffusion_sampling.png" width="700"/>
 
-See code examples:
+Course links:
 
 - https://www.deeplearning.ai/short-courses/how-diffusion-models-work/
 - https://github.com/huggingface/diffusion-models-class
