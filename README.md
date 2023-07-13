@@ -110,7 +110,26 @@ The image above shows the transition from 16 x 16 iamges (a) to 32 x 32 images (
 
 # StyleGAN
 
-A 512 sized noise vector goes through a mapping network and turns into a same 512 sized intermediate noise vector, making the noise vector a less entangled feature representation.
+<img src="image/StyleGAN.png" width="600"/>
+
+- A 512 sized noise vector goes through a mapping network and turns into a same 512 sized intermediate noise vector, making the noise vector a less entangled feature representation.
+- Adaptive Instance Normalization (AdaIN): During the upsampling process, after each conv layer, apply AdaIN which has two steps:
+  - Step 1: apply Instance Normalization to the convolution output.
+  - Step 2: intermediate noise vector W derives two parameters (different parameters for each conv layer) to scale and shift the convolution output. Style information is transferred onto the generated image from W.
+- Style Mixing: Use one intermediate noise vector W1 for AdaIN, and to control the style of the first half of conv layers (coarse styles), and use another intermediate noise vector W2 for the second half (fine styles).
+
+<br>
+
+# Pix2Pix
+
+<img src="image/Pix2Pix.png" width="700"/>
+
+- Pix2Pix is for Image-to-Image Translation (e.g. colorize black and white photos)
+- Pix2Pix takes an image as input, instead of a class vector. Pix2Pix does not take noise as input.
+- Generated output and its paired real image are concatenated along the channel dimension, and is fed to the PatchGAN discriminator.
+- The PatchGAN discriminator outputs a matrix of values, each between 0 and 1. Use BCE loss.
+- The generator wants the PatchGAN discriminator to think that every single patch of its generated image looks real, so use a Real matrix (full of 1’s). Use BCE loss.
+- Apart from BCE loss, the generator also adds a Pixel Distance Loss term to its loss function, encouraging the generator to make images similar to the real.
 
 <br>
 
