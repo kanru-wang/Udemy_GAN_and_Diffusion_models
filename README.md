@@ -149,26 +149,27 @@ See formula: https://medium.com/@ramyahrgowda/srgan-paper-explained-3d2d575d09ff
 
 <img src="image/cyclegan_2.png" width="700"/>
 
+With unpaired Image-to-Image Translation, we have a pile of images in one style and another pile of another style. The Content is the common elements between two unpaired images.
+
 https://developers.arcgis.com/python/guide/how-cyclegan-works/
 
-The model architecture is comprised of two generators: one generator (Generator-A) for generating images for the first domain (Domain-A) and the second generator (Generator-B) for generating images for the second domain (Domain-B).
+The model architecture is comprised of two generators: one generator (Generator-A) for generating images for the first domain (Domain-A) and the second generator (Generator-B) for generating images for the second domain (Domain-B). The generator is similar to a U-Net.
 
     Domain-B -> Generator-A -> Domain-A
     Domain-A -> Generator-B -> Domain-B
 
-Each generator has a corresponding discriminator model (Discriminator-A and Discriminator-B). The discriminator model takes real images from Domain and generated images from Generator to predict whether they are real or fake.
+Each generator has a corresponding discriminator model (Discriminator-A and Discriminator-B). The discriminator model takes real images from Domain and generated images from Generator to predict whether they are real or fake. The discriminator is a PatchGAN with Least Squares Adversarial Loss (not BCE Loss).
 
     Domain-A -> Discriminator-A -> [Real/Fake]
     Domain-B -> Generator-A -> Discriminator-A -> [Real/Fake]
     Domain-B -> Discriminator-B -> [Real/Fake]
     Domain-A -> Generator-B -> Discriminator-B -> [Real/Fake]
- 
 
 The loss used to train the Generators consists of three parts:
 
 1. Adversarial Loss: Apply Adversarial Loss to both the Generators, where the Generator tries to generate the images of its domain, while its corresponding discriminator distinguishes between the translated samples and real samples. Generator aims to minimize this loss against its corresponding Discriminator that tries to maximize it.
 
-2. Cycle Consistency Loss: It captures the intuition that if we translate the image from one domain to the other and back again, it should look the same as the original one. Hence, it calculates the L1 loss between the original image and the final generated image. It is calculated in two directions:
+2. Cycle Consistency Loss: If we translate the image from one domain to the other and back again, it should look the same as the original one. Hence, it calculates the L1 loss between the original image and the final generated image (summing the pixel differences). It is calculated in two directions:
 
         Forward Cycle Consistency: Domain-B -> Generator-A -> Domain-A -> Generator-B -> Domain-B
         Backward Cycle Consistency: Domain-A -> Generator-B -> Domain-B -> Generator-A -> Domain-A
