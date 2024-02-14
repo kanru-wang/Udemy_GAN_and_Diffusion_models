@@ -1,3 +1,9 @@
+### View [this nbviewer mirrored repository](https://nbviewer.org/github/kanru-wang/Udemy_GAN_and_Diffusion_models), if you see formatting issues in the notebooks above.
+
+--------------------------------
+
+<br>
+
 ## Deep Learning Image Generation with GANs and Diffusion Model
 
 - Udemy https://www.udemy.com/course/deep-learning-image-generation-with-gans-and-diffusion-model
